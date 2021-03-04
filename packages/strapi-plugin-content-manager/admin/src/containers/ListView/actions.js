@@ -78,6 +78,20 @@ export function toggleModalDelete() {
   };
 }
 
-export const setLayout = layout => ({ layout, type: SET_LIST_LAYOUT });
+export const setLayout = contentType => {
+  const { layouts, settings } = contentType;
+  const defaultSort = `${settings.defaultSortBy}:${settings.defaultSortOrder}`;
+
+  return {
+    contentType,
+    displayedHeaders: layouts.list,
+    type: SET_LIST_LAYOUT,
+    initialParams: {
+      page: 1,
+      pageSize: settings.pageSize,
+      _sort: defaultSort,
+    },
+  };
+};
 
 export const onChangeListHeaders = target => ({ type: ON_CHANGE_LIST_HEADERS, target });

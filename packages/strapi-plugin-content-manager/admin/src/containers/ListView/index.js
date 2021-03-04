@@ -80,23 +80,26 @@ function ListView({
   onResetListHeaders,
   pagination: { total },
   resetProps,
-  setLayout,
   slug,
+  initialParams
 }) {
   const {
     contentType: {
       attributes,
       metadatas,
       settings: {
-        defaultSortBy,
-        defaultSortOrder,
+        // defaultSortBy,
+        // defaultSortOrder,
         bulkable: isBulkable,
         filterable: isFilterable,
         searchable: isSearchable,
-        pageSize: defaultPageSize,
+        // pageSize: defaultPageSize,
       },
     },
   } = layout;
+
+
+  
 
   const { emitEvent } = useGlobalContext();
   const emitEventRef = useRef(emitEvent);
@@ -105,12 +108,14 @@ function ListView({
     isLoading: isLoadingForPermissions,
     allowedActions: { canCreate, canRead, canUpdate, canDelete },
   } = useUserPermissions(viewPermissions);
-  const defaultSort = `${defaultSortBy}:${defaultSortOrder}`;
-  const initParams = useMemo(() => ({ page: 1, pageSize: defaultPageSize, _sort: defaultSort }), [
-    defaultPageSize,
-    defaultSort,
-  ]);
-  const [{ query, rawQuery }, setQuery] = useQueryParams(initParams);
+  // const defaultSort = `${defaultSortBy}:${defaultSortOrder}`;
+
+  // const initParams = useMemo(() => ({ page: 1, pageSize: defaultPageSize, _sort: defaultSort }), [
+  //   defaultPageSize,
+  //   defaultSort,
+  // ]);
+
+  const [{ query, rawQuery }, setQuery] = useQueryParams(initialParams);
 
   const { pathname } = useLocation();
   const { push } = useHistory();
@@ -132,21 +137,22 @@ function ListView({
   const label = contentType.info.label;
 
   const params = useMemo(() => {
-    return rawQuery || `?${stringify(initParams, { encode: false })}`;
-  }, [initParams, rawQuery]);
+    return rawQuery || `?${stringify(initialParams, { encode: false })}`;
+  }, [initialParams, rawQuery]);
 
   const firstSortableHeader = useMemo(() => getFirstSortableHeader(displayedHeaders), [
     displayedHeaders,
   ]);
 
   useEffect(() => {
-    setLayout(layout);
+    // setLayout(layout.contentType);
     setFilterPickerState(false);
 
     return () => {
+      console.log('unmount')
       resetProps();
     };
-  }, [layout, setLayout, resetProps]);
+  }, [resetProps]);
 
   // Using a ref to avoid requests being fired multiple times on slug on change
   // We need it because the hook as mulitple dependencies so it may run before the permissions have checked
