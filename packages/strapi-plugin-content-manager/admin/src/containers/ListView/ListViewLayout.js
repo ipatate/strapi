@@ -41,6 +41,7 @@ ListViewLayout.propTypes = {
       }).isRequired,
       options: PropTypes.object.isRequired,
       settings: PropTypes.object.isRequired,
+      pluginOptions: PropTypes.object,
     }).isRequired,
   }).isRequired,
 };
