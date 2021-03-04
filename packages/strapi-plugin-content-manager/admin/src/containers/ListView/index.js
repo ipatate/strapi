@@ -99,7 +99,18 @@ function ListView({
     allowedActions: { canCreate, canRead, canUpdate, canDelete },
   } = useUserPermissions(viewPermissions);
 
-  const [{ query, rawQuery }, setQuery] = useQueryParams(initialParams);
+  const [{ query }, setQuery] = useQueryParams(initialParams);
+
+  const _where = query._where || [];
+
+  const { pluginOptions: _, ...queryParams } = {
+    ...query,
+    _where: _where.concat(
+      Object.keys(query.pluginOptions || {}).map(key => ({ [key]: query.pluginOptions[key] }))
+    ),
+  };
+
+  const params = `?${stringify(queryParams, { encode: false })}`;
 
   const { pathname } = useLocation();
   const { push } = useHistory();
@@ -119,10 +130,6 @@ function ListView({
   const _q = query._q || '';
 
   const label = contentType.info.label;
-
-  const params = useMemo(() => {
-    return rawQuery || `?${stringify(initialParams, { encode: false })}`;
-  }, [initialParams, rawQuery]);
 
   const firstSortableHeader = useMemo(() => getFirstSortableHeader(displayedHeaders), [
     displayedHeaders,

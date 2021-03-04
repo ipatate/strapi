@@ -7,13 +7,13 @@ const useQueryParams = initialParams => {
   const { push } = useHistory();
 
   const query = useMemo(() => {
-    const searchQuery = search.substring(1);
-
     if (!search) {
       return initialParams;
     }
 
-    return parse(searchQuery);
+    const searchQuery = search.substring(1);
+    
+return parse(searchQuery);
   }, [search, initialParams]);
 
   const setQuery = useCallback(
