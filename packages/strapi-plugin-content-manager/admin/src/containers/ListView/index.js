@@ -81,25 +81,15 @@ function ListView({
   pagination: { total },
   resetProps,
   slug,
-  initialParams
+  initialParams,
 }) {
   const {
     contentType: {
       attributes,
       metadatas,
-      settings: {
-        // defaultSortBy,
-        // defaultSortOrder,
-        bulkable: isBulkable,
-        filterable: isFilterable,
-        searchable: isSearchable,
-        // pageSize: defaultPageSize,
-      },
+      settings: { bulkable: isBulkable, filterable: isFilterable, searchable: isSearchable },
     },
   } = layout;
-
-
-  
 
   const { emitEvent } = useGlobalContext();
   const emitEventRef = useRef(emitEvent);
@@ -108,12 +98,6 @@ function ListView({
     isLoading: isLoadingForPermissions,
     allowedActions: { canCreate, canRead, canUpdate, canDelete },
   } = useUserPermissions(viewPermissions);
-  // const defaultSort = `${defaultSortBy}:${defaultSortOrder}`;
-
-  // const initParams = useMemo(() => ({ page: 1, pageSize: defaultPageSize, _sort: defaultSort }), [
-  //   defaultPageSize,
-  //   defaultSort,
-  // ]);
 
   const [{ query, rawQuery }, setQuery] = useQueryParams(initialParams);
 
@@ -149,7 +133,6 @@ function ListView({
     setFilterPickerState(false);
 
     return () => {
-      console.log('unmount')
       resetProps();
     };
   }, [resetProps]);
@@ -534,6 +517,7 @@ ListView.propTypes = {
   toggleModalDelete: PropTypes.func.isRequired,
   toggleModalDeleteAll: PropTypes.func.isRequired,
   setLayout: PropTypes.func.isRequired,
+  initialParams: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = makeSelectListView();
