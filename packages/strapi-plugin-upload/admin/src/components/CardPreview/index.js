@@ -6,12 +6,14 @@ import { getType } from '../../utils';
 import BrokenFile from '../../icons/BrokenFile';
 import FileIcon from '../FileIcon';
 import VideoPreview from '../VideoPreview';
+import AudioPreview from '../AudioPreview';
 import Wrapper from './Wrapper';
 import Image from './Image';
 
 const CardPreview = ({ extension, hasError, hasIcon, url, previewUrl, type, withFileCaching }) => {
   const isFile = getType(type) === 'file';
   const isVideo = getType(type) === 'video';
+  const isAudio = getType(type) === 'audio';
   const cacheRef = useRef(performance.now());
 
   if (hasError) {
@@ -26,6 +28,14 @@ const CardPreview = ({ extension, hasError, hasIcon, url, previewUrl, type, with
     return (
       <Wrapper isFile>
         <FileIcon ext={extension} />
+      </Wrapper>
+    );
+  }
+
+  if (isAudio) {
+    return (
+      <Wrapper>
+        <AudioPreview src={url} />
       </Wrapper>
     );
   }

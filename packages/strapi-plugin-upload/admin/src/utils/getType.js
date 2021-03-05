@@ -5,7 +5,7 @@ const getType = mime => {
 
   const type = mime.split(/[\s/]+/)[0];
 
-  if (type === 'image' || type === 'video') {
+  if (type === 'image' || type === 'video' || type === 'audio') {
     return type;
   }
 
