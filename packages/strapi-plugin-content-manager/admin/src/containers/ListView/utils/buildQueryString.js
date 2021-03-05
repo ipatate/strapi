@@ -3,7 +3,7 @@ import arrayOfPluginOptions from './arrayOfPluginOptions';
 
 const buildQueryString = (queryParams = {}) => {
   const pluginOptionArray = arrayOfPluginOptions(queryParams.pluginOptions);
-  const _where = queryParams._where;
+  const _where = queryParams._where || [];
 
   /**
    * Extracting pluginOptions from the query since we don't want them to be part
