@@ -48,7 +48,7 @@ const listViewReducer = (state = initialState, action) =>
           contentType: state.contentType,
           initialDisplayedHeaders: state.initialDisplayedHeaders,
           displayedHeaders: state.displayedHeaders,
-          initialParams: state.initialParams
+          initialParams: state.initialParams,
         };
       }
 
@@ -169,7 +169,6 @@ const listViewReducer = (state = initialState, action) =>
       }
       case SET_LIST_LAYOUT: {
         const { contentType, displayedHeaders, initialParams } = action;
-        // console.log('lol', initialParams)
 
         drafState.contentType = contentType;
         drafState.displayedHeaders = displayedHeaders;

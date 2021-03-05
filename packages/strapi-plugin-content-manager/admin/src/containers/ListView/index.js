@@ -8,7 +8,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Header } from '@buffetjs/custom';
 import { Flex, Padded } from '@buffetjs/core';
 import isEqual from 'react-fast-compare';
-import { stringify } from 'qs';
 import {
   PopUpWarning,
   request,
@@ -53,7 +52,7 @@ import {
 } from './actions';
 import makeSelectListView from './selectors';
 
-import { getAllAllowedHeaders, getFirstSortableHeader } from './utils';
+import { getAllAllowedHeaders, getFirstSortableHeader, buildQueryString } from './utils';
 
 /* eslint-disable react/no-array-index-key */
 function ListView({
@@ -100,17 +99,7 @@ function ListView({
   } = useUserPermissions(viewPermissions);
 
   const [{ query }, setQuery] = useQueryParams(initialParams);
-
-  const _where = query._where || [];
-
-  const { pluginOptions: _, ...queryParams } = {
-    ...query,
-    _where: _where.concat(
-      Object.keys(query.pluginOptions || {}).map(key => ({ [key]: query.pluginOptions[key] }))
-    ),
-  };
-
-  const params = `?${stringify(queryParams, { encode: false })}`;
+  const params = buildQueryString(query);
 
   const { pathname } = useLocation();
   const { push } = useHistory();
@@ -136,7 +125,6 @@ function ListView({
   ]);
 
   useEffect(() => {
-    // setLayout(layout.contentType);
     setFilterPickerState(false);
 
     return () => {

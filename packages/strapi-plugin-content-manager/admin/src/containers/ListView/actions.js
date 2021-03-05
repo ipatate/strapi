@@ -86,6 +86,9 @@ export const setLayout = contentType => {
     contentType,
     displayedHeaders: layouts.list,
     type: SET_LIST_LAYOUT,
+    // initParams needs to explicitly set in the action so that external
+    // plugin can override this one.
+    // For instance, the i18n plugin will catch this action in a middleware and enhance it with a "locale" key
     initialParams: {
       page: 1,
       pageSize: settings.pageSize,
